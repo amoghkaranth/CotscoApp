@@ -15,13 +15,13 @@ import com.squareup.picasso.Picasso;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private ImageDisplayModel[] mData;
+    private ImageDisplayModel[] mImageDisplayModelsList;
     private LayoutInflater mInflater;
     private OnItemListener onItemListener;
 
-    public RecyclerViewAdapter(Context context, ImageDisplayModel[] data, OnItemListener onItemListener) {
+    public RecyclerViewAdapter(Context context, ImageDisplayModel[] ImageDisplayModelsList, OnItemListener onItemListener) {
         this.mInflater = LayoutInflater.from(context);
-        this.mData = data;
+        this.mImageDisplayModelsList = ImageDisplayModelsList;
         this.onItemListener = onItemListener;
     }
 
@@ -29,19 +29,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.recycler_view_grid_layout, parent, false);
-
         return new ViewHolder(view, onItemListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Picasso.get().load(mData[position].getUrl()).into(holder.imageView);
-        holder.imageTextView.setText(mData[position].getMessage());
+        Picasso.get().load(mImageDisplayModelsList[position].getUrl()).into(holder.imageView);
+        holder.imageTextView.setText(mImageDisplayModelsList[position].getMessage());
     }
 
     @Override
     public int getItemCount() {
-        return mData.length;
+        return mImageDisplayModelsList.length;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -69,6 +68,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public interface OnItemListener {
         void onItemClick(int position);
     }
-
 
 }

@@ -16,28 +16,14 @@ import com.example.cotscoapp.RecyclerViewAdapter
 import com.example.cotscoapp.ViewModels.ImageDisplayViewModel
 import com.example.cotscoapp.databinding.FragmentImageDisplayBinding
 
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 const val TAG = "ImageDisplayFragment"
 
-class ImageDisplayFragment() : Fragment() , RecyclerViewAdapter.OnItemListener {
+class ImageDisplayFragment : Fragment() , RecyclerViewAdapter.OnItemListener {
 
-    private var param1: String? = null
-    private var param2: String? = null
-    private val imageDisplayViewModel: ImageDisplayViewModel by activityViewModels()
+    private val mImageDisplayViewModel: ImageDisplayViewModel by activityViewModels()
     private lateinit var binding: FragmentImageDisplayBinding
     private lateinit var mImageDisplayModel: ImageDisplayModel
-    private var mData: Array<ImageDisplayModel>? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-
-    }
+    private var mImageDisplayModelsList: Array<ImageDisplayModel>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,45 +32,23 @@ class ImageDisplayFragment() : Fragment() , RecyclerViewAdapter.OnItemListener {
 
         binding = FragmentImageDisplayBinding.inflate(inflater, container, false)
 
-        imageDisplayViewModel.imageDisplayModel.observe(viewLifecycleOwner) {
+        mImageDisplayViewModel.imageDisplayModel.observe(viewLifecycleOwner) {
             mImageDisplayModel = it
-            Log.d(TAG, "Restuarants Modelo: $it")
-
-            mData = arrayOf(it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it)
+            Log.d(TAG, "Restaurants Model: $it")
+            mImageDisplayModelsList = arrayOf(it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it)
             val recyclerView : RecyclerView = binding.recyclerView
             recyclerView.layoutManager = GridLayoutManager(context, 5)
-            val adapter = RecyclerViewAdapter(context, mData, this)
+            val adapter = RecyclerViewAdapter(context, mImageDisplayModelsList, this)
             recyclerView.adapter = adapter
         }
 
         return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ImageDisplayFragment.
-         */
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ImageDisplayFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
-
     override fun onItemClick(position: Int) {
         Log.d(TAG, "Position $position clicked")
         val intent = Intent(context, DetailedImageDisplayActivity::class.java)
-
-        intent.putExtra("KEY", mData?.get(position))
-
+        intent.putExtra("KEY", mImageDisplayModelsList?.get(position))
         context?.startActivity(intent)
     }
 

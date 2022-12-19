@@ -8,26 +8,32 @@ import com.squareup.picasso.Picasso
 
 class DetailedImageDisplayActivity : AppCompatActivity(){
     private lateinit var binding: DetailedImageDisplayLayoutBinding
-    private lateinit var mData: ImageDisplayModel
+    private lateinit var mImageDisplayModel: ImageDisplayModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = DetailedImageDisplayLayoutBinding.inflate(layoutInflater)
+        mImageDisplayModel = intent.getParcelableExtra("KEY")!!
+        loadViews()
+        createCustomActionBar()
 
-        mData = intent.getParcelableExtra("KEY")!!
-        binding.tempText.text = mData.message
-        Picasso.get().load(mData.url).into(binding.detailedImageView)
+        setContentView(binding.root)
+    }
 
+    private fun loadViews() {
+        binding.tempText.text = mImageDisplayModel.message
+        Picasso.get().load(mImageDisplayModel.url).into(binding.detailedImageView)
+    }
 
+    private fun createCustomActionBar() {
         //FIGURE OUT HOW TO HIDE IN THE MANIFEST
-        supportActionBar?.hide()
 
+        supportActionBar?.hide()
         val customActionBar = binding.customActionBar
         customActionBar.backButton.setOnClickListener {
             finish()
         }
-
-        setContentView(binding.root)
     }
 
 }
