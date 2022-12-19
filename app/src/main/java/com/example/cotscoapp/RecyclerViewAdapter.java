@@ -1,28 +1,16 @@
 package com.example.cotscoapp;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.cotscoapp.Models.ImageDisplayModel;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
-
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.net.URL;
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -45,14 +33,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return new ViewHolder(view, onItemListener);
     }
 
-    // binds the data to the TextView in each cell
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Picasso.get().load(mData[position].getUrl()).into(holder.imageView);
         holder.imageTextView.setText(mData[position].getMessage());
     }
 
-    // total number of cells
     @Override
     public int getItemCount() {
         return mData.length;
@@ -79,7 +65,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             onItemListener.onItemClick(getAdapterPosition());
         }
     }
-
 
     public interface OnItemListener {
         void onItemClick(int position);
