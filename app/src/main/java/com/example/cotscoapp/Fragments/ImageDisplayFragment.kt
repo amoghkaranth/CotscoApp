@@ -18,6 +18,10 @@ import com.example.cotscoapp.databinding.FragmentImageDisplayBinding
 
 const val TAG = "ImageDisplayFragment"
 
+/**
+ * Fragment used to display the images and associated text of the respective search results
+ */
+
 class ImageDisplayFragment : Fragment() , RecyclerViewAdapter.OnItemListener {
 
     private val mImageDisplayViewModel: ImageDisplayViewModel by activityViewModels()
@@ -36,15 +40,25 @@ class ImageDisplayFragment : Fragment() , RecyclerViewAdapter.OnItemListener {
             mImageDisplayModel = it
             Log.d(TAG, "Restaurants Model: $it")
             mImageDisplayModelsList = arrayOf(it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it, it)
-            val recyclerView : RecyclerView = binding.recyclerView
-            recyclerView.layoutManager = GridLayoutManager(context, 5)
-            val adapter = RecyclerViewAdapter(context, mImageDisplayModelsList, this)
-            recyclerView.adapter = adapter
+            setupRecyclerView()
         }
 
         return binding.root
     }
 
+    /**
+     * Method used to setup RecyclerView containing the images and associated text
+     */
+    private fun setupRecyclerView() {
+        val recyclerView : RecyclerView = binding.recyclerView
+        recyclerView.layoutManager = GridLayoutManager(context, 5)
+        val adapter = RecyclerViewAdapter(context, mImageDisplayModelsList, this)
+        recyclerView.adapter = adapter
+    }
+
+    /**
+     * Implementation of the method in the interface within the RecyclerView Adapter
+     */
     override fun onItemClick(position: Int) {
         Log.d(TAG, "Position $position clicked")
         val intent = Intent(context, DetailedImageDisplayActivity::class.java)

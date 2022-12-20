@@ -10,6 +10,9 @@ import com.example.cotscoapp.R;
 import com.squareup.picasso.Picasso;
 import java.util.Objects;
 
+/**
+ * Activity used to display the detailed information about the image
+ */
 public class DetailedImageDisplayActivity extends AppCompatActivity {
     private ImageDisplayModel mImageDisplayModel;
 
@@ -22,14 +25,33 @@ public class DetailedImageDisplayActivity extends AppCompatActivity {
         createCustomActionBar();
     }
 
+    /**
+     * Loads the associated views from the previously obtained activity
+     */
     private void loadViews() {
         TextView tempText = findViewById(R.id.temp_text);
+        TextView userId = findViewById(R.id.user_id);
+        TextView id = findViewById(R.id.id);
+        TextView title = findViewById(R.id.title);
+        TextView completed = findViewById(R.id.completed);
         ImageView detailedImageView = findViewById(R.id.detailed_image_view);
 
         tempText.setText(mImageDisplayModel.getMessage());
+        userId.setText("UserId: " + (mImageDisplayModel.getUserId()));
+        id.setText("id: " + (mImageDisplayModel.getId()));
+        title.setText("Title: " + mImageDisplayModel.getTitle());
+        if(mImageDisplayModel.getMCompleted()) {
+            completed.setText("Completed: true");
+        } else {
+            completed.setText("Completed: false");
+        }
+
         Picasso.get().load(mImageDisplayModel.getUrl()).into(detailedImageView);
     }
 
+    /**
+     * Design for the custom actionbar that the user can use to go back to potentially perform another search
+     */
     private void createCustomActionBar() {
         Objects.requireNonNull(getSupportActionBar()).hide();
         View customActionBar = findViewById(R.id.custom_action_bar);

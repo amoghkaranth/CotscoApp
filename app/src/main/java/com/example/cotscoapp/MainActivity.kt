@@ -16,29 +16,47 @@ import com.example.cotscoapp.databinding.ActivityMainBinding
 
 const val TAG = "MainActivity"
 
+/**
+ * Homepage which user can search for cities
+ */
+
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var imageDisplayModel: ImageDisplayModel
     private val imageDisplayViewModel: ImageDisplayViewModel by viewModels()
-    private val searchErrorCheck = hashMapOf("Messi" to "Messi", "Won" to "Won", "The" to "The", "World" to "World", "Cup" to "Cup")
+    private val searchErrorCheck = hashMapOf("Seattle" to "https://images.vexels.com/media/users/3/144140/isolated/preview/a2df1a6c99b32b078a1975d5788e27ac-seattle-skyline-badge.png",
+                                            "Chicago" to "https://images.vexels.com/media/users/3/144056/isolated/preview/116d60e8fd9e3e2233abbb71a6ae5d9e-chicago-skyline-badge.png",
+                                            "New York" to "https://images.vexels.com/media/users/3/144125/isolated/preview/e41e827336e592fc084566be2bff2665-new-york-skyline-badge-vector.png",
+                                            "Los Angeles" to "https://www.pngall.com/wp-content/uploads/9/Los-Angeles-PNG-Image.png",
+                                            "Miami" to "https://images.vexels.com/media/users/3/144114/isolated/lists/fa91eba1385b90b0bf97e3365b515c74-miami-city-badge.png")
+    private var mUserId: Int = 0
+    private var mId: Int = 0
+    private var mTitle: String = ""
+    private var mCompleted: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
+        searchCity()
+        setContentView(binding.root)
+    }
 
-
+    /**
+     * Will display fragment when appropriate items are searched for
+     */
+    private fun searchCity() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 if(searchErrorCheck.containsKey(query)) {
                     loadContents()
-                    imageDisplayModel = ImageDisplayModel("https://www.simplifiedcoding.net/wp-content/uploads/2015/10/advertise.png", query)
+                    imageDisplayModel = searchErrorCheck[query]
+                        ?.let { ImageDisplayModel(it, query, mUserId, mId, mTitle, mCompleted) }!!
                     imageDisplayViewModel.setImageDisplayModel(imageDisplayModel)
                     loadFragment(ImageDisplayFragment())
                 } else {
                     Toast.makeText(this@MainActivity, "Please Enter a Valid City Name", Toast.LENGTH_SHORT).show()
                 }
-
                 return false
             }
 
@@ -46,10 +64,11 @@ class MainActivity : AppCompatActivity() {
                 return false
             }
         })
-
-        setContentView(binding.root)
     }
 
+    /**
+     * Loads fragment onto MainActivity
+     */
     private fun loadFragment(fragment:Fragment) {
         supportFragmentManager
             .beginTransaction()
@@ -57,22 +76,30 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
+
+    /**
+     * Performs API call through Volley Library
+     */
     private fun loadContents() {
 
-        val url = "https://meme-api.com/gimme"
+        val queue = Volley.newRequestQueue(this)
+
+        val url = "https://jsonplaceholder.typicode.com/todos/1"
 
         val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
-                Log.d("TAG", "Response is Valid Man: $response")
-
-//                val thumbnail = response.getString("thumbnail")
-
+                Log.d("TAG", "Response is Valid: $response")
+                mUserId = response.getInt("userId")
+                mId = response.getInt("id")
+                mTitle = response.getString("title")
+                mCompleted = response.getBoolean("completed")
             },
             {
-//                it.localizedMessage?.let { it1 -> Log.d("error", it1) }
-                if (it is TimeoutError || it is NoConnectionError){
-                    Log.d(TAG, "Response is Timeout or NoConnectionError")
-                } else if (it is AuthFailureError) {
+                if (it is TimeoutError){
+                    Log.d(TAG, "Response is Timeout")
+                } else if ( it is NoConnectionError) {
+                    Log.d(TAG, "Response is NoConnectionError")
+                }else if (it is AuthFailureError) {
                     Log.d(TAG, "Response is AuthFailureError")
                 } else if (it is  ServerError) {
                     Log.d(TAG, "Response is ServerError")
@@ -83,7 +110,7 @@ class MainActivity : AppCompatActivity() {
                 }
             })
 
-        MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest)
+        queue.add(jsonObjectRequest)
 
     }
 

@@ -12,6 +12,7 @@
     </ImageView>
     <TextView
         android:id="@+id/button_description"
+        android:layout_marginTop="2dp"
         android:layout_marginStart="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
