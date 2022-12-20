@@ -37,13 +37,13 @@ public class DetailedImageDisplayActivity extends AppCompatActivity {
         ImageView detailedImageView = findViewById(R.id.detailed_image_view);
 
         tempText.setText(mImageDisplayModel.getMessage());
-        userId.setText("UserId: " + (mImageDisplayModel.getUserId()));
-        id.setText("id: " + (mImageDisplayModel.getId()));
-        title.setText("Title: " + mImageDisplayModel.getTitle());
+        userId.setText("User Id: " + (mImageDisplayModel.getUserId()));
+        id.setText(R.string.id + (mImageDisplayModel.getId()));
+        title.setText(R.string.title + mImageDisplayModel.getTitle());
         if(mImageDisplayModel.getMCompleted()) {
-            completed.setText("Completed: true");
+            completed.setText(R.string.completed_true);
         } else {
-            completed.setText("Completed: false");
+            completed.setText(R.string.completed_false);
         }
 
         Picasso.get().load(mImageDisplayModel.getUrl()).into(detailedImageView);

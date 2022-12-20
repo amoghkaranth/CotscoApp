@@ -20,8 +20,8 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:queryHint="Search By City Name"
-        app:defaultQueryHint="Search By City Name"
+        app:queryHint="@string/query_hint"
+        app:defaultQueryHint="@string/query_hint"
         app:iconifiedByDefault="false">
     </androidx.appcompat.widget.SearchView>
 

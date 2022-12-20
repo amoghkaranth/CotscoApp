@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                     imageDisplayViewModel.setImageDisplayModel(imageDisplayModel)
                     loadFragment(ImageDisplayFragment())
                 } else {
-                    Toast.makeText(this@MainActivity, "Please Enter a Valid City Name", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, R.string.invalid_search, Toast.LENGTH_SHORT).show()
                 }
                 return false
             }

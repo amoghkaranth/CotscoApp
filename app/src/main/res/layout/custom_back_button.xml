@@ -16,6 +16,6 @@
         android:layout_marginStart="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Perform Another Search or Go Back"
+        android:text="@string/back_button_text"
         android:textColor="@color/black"/>
 </LinearLayout>

@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Cotsco App</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="query_hint">Search By City Name</string>
+    <string name="invalid_search">Please Enter a Valid City Name</string>
+    <string name="id">Id: </string>
+    <string name="title">Title: </string>
+    <string name="completed_true">Completed: true</string>
+    <string name="completed_false">Completed false</string>
+    <string name="back_button_text">Perform Another Search Or Go Back</string>
 </resources>
