@@ -17,7 +17,7 @@ import com.example.cotscoapp.databinding.ActivityMainBinding
 const val TAG = "MainActivity"
 
 /**
- * Homepage which user can search for cities
+ * Homepage which user can search for cities (Look at the comment regarding the API uri in loadContents())
  */
 
 class MainActivity : AppCompatActivity() {
@@ -78,12 +78,18 @@ class MainActivity : AppCompatActivity() {
 
 
     /**
-     * Performs API call through Volley Library
+     * Performs API call through Volley Library (Look at comment regarding the API uri)
      */
     private fun loadContents() {
 
         val queue = Volley.newRequestQueue(this)
 
+
+        /**
+         * Commented code below shows the API uri that was provided but was outputting a 503 Service Unavailable Error
+         * Hence, I used another API uri to demonstrate similar behaviors
+         */
+//        val url = "https://opentable.herokuapp.com/"
         val url = "https://jsonplaceholder.typicode.com/todos/1"
 
         val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
