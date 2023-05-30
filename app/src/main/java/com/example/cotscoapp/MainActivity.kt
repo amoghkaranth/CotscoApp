@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 if(searchErrorCheck.containsKey(query)) {
-                    loadContents()
+//                    loadContents()
                     imageDisplayModel = searchErrorCheck[query]
                         ?.let { ImageDisplayModel(it, query, mUserId, mId, mTitle, mCompleted) }!!
                     imageDisplayViewModel.setImageDisplayModel(imageDisplayModel)

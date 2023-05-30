@@ -53,7 +53,13 @@ class ImageDisplayFragment : Fragment() , RecyclerViewAdapter.OnItemListener {
         val recyclerView : RecyclerView = binding.recyclerView
         recyclerView.layoutManager = GridLayoutManager(context, 5)
         val adapter = RecyclerViewAdapter(context, mImageDisplayModelsList, this)
-        recyclerView.adapter = adapter
+        recyclerView.apply {
+            this.adapter = adapter
+        }
+    }
+
+    companion object {
+        private const val KEY = "KEY"
     }
 
     /**
@@ -62,7 +68,7 @@ class ImageDisplayFragment : Fragment() , RecyclerViewAdapter.OnItemListener {
     override fun onItemClick(position: Int) {
         Log.d(TAG, "Position $position clicked")
         val intent = Intent(context, DetailedImageDisplayActivity::class.java)
-        intent.putExtra("KEY", mImageDisplayModelsList?.get(position))
+        intent.putExtra(KEY, mImageDisplayModelsList?.get(position))
         context?.startActivity(intent)
     }
 
